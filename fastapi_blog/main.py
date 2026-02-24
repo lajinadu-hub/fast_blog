@@ -11,7 +11,7 @@ templates = Environment(loader=FileSystemLoader("templates"))
 posts: list[dict] = [
     {
     "id": 1,
-    "author": "COrey Schafer",
+    "author": "Corey Schafer",
     "title": "FastAPI is Awesome",
     "content": "THis framework is really easy to use and super fast",
     "date_posted": "April 20, 2025",
@@ -35,4 +35,4 @@ posts: list[dict] = [
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     template = templates.get_template("home.html")
-    return template.render({"request": request, "posts": posts})
+    return template.render({"request": request, "posts": posts, "title": "Home"})

@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FastAPI Blog</title>
-</head>
-<body>
-    <h1>Blog Posts</h1> 
+{% extends "layout.html" %}
+{% block content %}
+    
     {% for post in posts %} 
     <article> <h2>{{ post.title }}</h2> 
     <p><strong>Author:</strong> {{ post.author }}</p> 
@@ -14,5 +8,4 @@
     <small>Posted on {{ post.date_posted }}</small> 
     <hr> </article> 
     {% endfor %}
-</body>
-</html>
+{% endblock %}

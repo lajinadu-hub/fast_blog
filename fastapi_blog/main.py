@@ -1,7 +1,11 @@
-from fastapi import FastAPI 
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request
+#from fastapi.responses import HTMLResponse since we are using templates 
+from fastapi.templating import JinjaTemplates 
+
+
 app = FastAPI()
 
+templates = JinjaTemplates(directory="templates") #tells the app to look the templates directory for templates rendering. 
 
 posts: list[dict] = [
     {

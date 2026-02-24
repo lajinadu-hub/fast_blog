@@ -1,12 +1,13 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from jinja2 import Environment, FileSystemLoader
-# Environment is the core Jinja2 object that manages templates.
-#FileSystemLoader tells Jinja2 where your HTML template files live on disk.
+#from fastapi.responses import HTMLResponse since we are using templates 
+# from fastapi.templating import JinjaTemplates 
+from starlette.templating import JinjaTemplates
+
+
 
 app = FastAPI()
 
-templates = Environment(loader=FileSystemLoader("templates"))
+templates = JinjaTemplates(directory="templates") #tells the app to look the templates directory for templates rendering. 
 
 posts: list[dict] = [
     {
@@ -32,7 +33,12 @@ posts: list[dict] = [
     },
 ]
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    template = templates.get_template("home.html")
-    return template.render({"request": request, "posts": posts})
+
+@app.get("/", include_in_schema=False)
+@app.get("/posts", include_in_schema=False)
+def home(request: Request):
+    return templates.TemplateResponse(request, "home.html")
+
+@app.get("/api/posts")
+def get_posts():
+    return posts

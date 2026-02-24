@@ -6,7 +6,13 @@
     <title>FastAPI Blog</title>
 </head>
 <body>
-    <h1>Home Page</h1>
-    <p>Redering the first template for testing!</p>
+    <h1>Blog Posts</h1> 
+    {% for post in posts %} 
+    <article> <h2>{{ post.title }}</h2> 
+    <p><strong>Author:</strong> {{ post.author }}</p> 
+    <p>{{ post.content }}</p> 
+    <small>Posted on {{ post.date_posted }}</small> 
+    <hr> </article> 
+    {% endfor %}
 </body>
 </html>

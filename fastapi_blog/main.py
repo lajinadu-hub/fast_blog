@@ -1,12 +1,26 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from jinja2 import Environment, FileSystemLoader
+from fastapi.staticfiles import StaticFiles
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 # Environment is the core Jinja2 object that manages templates.
 #FileSystemLoader tells Jinja2 where your HTML template files live on disk.
 
 app = FastAPI()
 
-templates = Environment(loader=FileSystemLoader("templates"))
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Create Jinja2 environment 
+templates = Environment( 
+    loader=FileSystemLoader("templates"), 
+    autoescape=select_autoescape(["html", "xml"]) )
+
+
+# Add url_for helper to Jinja2 
+def url_for(name: str, *args, **kwargs): 
+    if args: 
+        kwargs["path"] = args[0] 
+    return app.url_path_for(name, **kwargs) 
+templates.globals["url_for"] = url_for
 
 posts: list[dict] = [
     {
